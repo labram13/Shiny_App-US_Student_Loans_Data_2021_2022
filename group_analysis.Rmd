@@ -1,0 +1,32 @@
+---
+title: 'Group Project: 2020 Studen Loan Analysis'
+author: "Group BD2"
+date: "2023-02-28"
+output: html_document
+---
+
+```{r message = FALSE}
+library(tidyverse)
+student_loans <- read_delim("data/Student Loan Debt by School 2020-2021.csv")
+```
+
+# Project Set-up (Data Analysis)
+
+### 1. Compue Average Loans per State. Possible top 10 (Mike)
+
+
+
+### 2. Compute top 10 average loans by city. Organize city school loans by state (Nick)
+
+
+
+### 3. Organize and arrange highest to lowest loan types taken out (Nathaniel)
+
+
+
+### 4. Compute average number of recipients who received a loan per college. (Megan)
+
+
+
+### 5. Categorize public and private schools with their average loans taken out. (Everyone)
+
