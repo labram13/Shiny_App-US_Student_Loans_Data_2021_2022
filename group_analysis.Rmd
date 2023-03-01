@@ -1,5 +1,5 @@
 ---
-title: 'Group Project: 2020 Studen Loan Analysis'
+title: 'Group Project: 2020-2021 Student Loan Analysis'
 author: "Group BD2"
 date: "2023-02-28"
 output: html_document
@@ -11,9 +11,61 @@ student_loans <- read_delim("data/Student Loan Debt by School 2020-2021.csv")
 ```
 
 # Project Set-up (Data Analysis)
+```{r, echo=FALSE}
+# Dimensions & Column Names $ Sample 
 
-### 1. Compue Average Loans per State. Possible top 10 (Mike)
+dim(student_loans)
+colnames(student_loans)
+student_loans %>% 
+  sample_n(10)
 
+```
+```{r echo=FALSE}
+# Checking NAs
+
+student_loans %>% 
+  filter(is.na(City)) %>% 
+  head(10)
+
+student_loans %>%
+  filter(is.na(State)) %>% 
+  head(10) 
+
+student_loans %>% 
+  filter(is.na(School)) %>% 
+  head(10)
+```
+
+
+
+### 1. Compute Average Loans per State. Possible top 10 (Mike)
+
+```{r}
+# Multiple terms for how loans were carried out. Here, I chose disbursement. 
+
+student_loans %>% 
+  filter( !is.na(`$ of Disbursements`),
+         !is.na(State)) %>% 
+  group_by(State) %>% 
+  summarize(avg_loan_state = mean(`$ of Disbursements`)) %>% 
+  mutate(rank = rank(desc(avg_loan_state))) %>% 
+  arrange(rank) %>% 
+  head(10)
+```
+
+```{r}
+# Double Checking Numbers
+
+student_loans %>% 
+  filter(State == "DC", 
+         !is.na(`$ of Disbursements`)) %>% 
+  group_by(State) %>% 
+  summarize(avg_loan = mean(`$ of Disbursements`)) %>% 
+  print()
+```
+
+Numbers look good. Sorted from rank 1 to 50. 4 Additional states
+included (Puerto Rico, DC, and so forth.)
 
 
 ### 2. Compute top 10 average loans by city. Organize city school loans by state (Nick)
