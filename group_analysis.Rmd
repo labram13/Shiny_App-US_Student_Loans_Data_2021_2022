@@ -42,29 +42,21 @@ student_loans %>%
 
 ```{r}
 # Multiple terms for how loans were carried out. Here, I chose disbursement. 
-
+# Since data is accumulative based on quarters of the year, we 
+# filter out the max number for $ of disbursements for each school. 
+# Then we calculate average loan by group the schools by state. 
 student_loans %>% 
-  filter( !is.na(`$ of Disbursements`),
-         !is.na(State),
-         `Loan Type` != "Total") %>% 
-  group_by(State) %>% 
-  summarize(avg_loan_state = mean(`$ of Disbursements`)) %>% 
-  mutate(rank = rank(desc(avg_loan_state))) %>% 
-  arrange(rank) %>% 
-  head(10)
-```
-
-```{r}
-# Double Checking Numbers
-
-student_loans %>% 
-  filter(State == "DC", 
+  filter(`Loan Type` == "Total",
          !is.na(`$ of Disbursements`),
-         `Loan Type` != "Total") %>% 
+         !is.na(State)) %>% 
+  group_by(State, School) %>% 
+  summarize(total_loans = max(`$ of Disbursements`)) %>% 
   group_by(State) %>% 
-  summarize(avg_loan = mean(`$ of Disbursements`)) %>% 
-  print()
+  summarize(avg_loan = mean(total_loans)) %>% 
+  arrange(rank(desc(avg_loan)))
 ```
+
+
 
 Numbers look good. Sorted from rank 1 to 50. 4 Additional states
 included (Puerto Rico, DC, and so forth.)
