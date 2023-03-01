@@ -53,7 +53,8 @@ student_loans %>%
   summarize(total_loans = max(`$ of Disbursements`)) %>% 
   group_by(State) %>% 
   summarize(avg_loan = mean(total_loans)) %>% 
-  arrange(rank(desc(avg_loan)))
+  arrange(rank(desc(avg_loan))) %>% 
+  head(10)
 ```
 
 
