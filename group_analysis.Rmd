@@ -45,7 +45,8 @@ student_loans %>%
 
 student_loans %>% 
   filter( !is.na(`$ of Disbursements`),
-         !is.na(State)) %>% 
+         !is.na(State),
+         `Loan Type` != "Total") %>% 
   group_by(State) %>% 
   summarize(avg_loan_state = mean(`$ of Disbursements`)) %>% 
   mutate(rank = rank(desc(avg_loan_state))) %>% 
@@ -58,7 +59,8 @@ student_loans %>%
 
 student_loans %>% 
   filter(State == "DC", 
-         !is.na(`$ of Disbursements`)) %>% 
+         !is.na(`$ of Disbursements`),
+         `Loan Type` != "Total") %>% 
   group_by(State) %>% 
   summarize(avg_loan = mean(`$ of Disbursements`)) %>% 
   print()
