@@ -72,8 +72,14 @@ included (Puerto Rico, DC, and so forth.)
 
 
 ### 4. Compute average number of recipients who received a loan per college. (Megan)
-
-
+```{r}
+student_loans %>%
+  group_by(School) %>%
+  filter(!is.na(School), !is.na(Recipients)) %>%
+  summarise(avg = mean(Recipients)) %>%
+  select(School, avg) %>%
+  arrange(desc(avg))
+```
 
 ### 5. Categorize public and private schools with their average loans taken out. (Everyone)
 
