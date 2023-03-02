@@ -7,6 +7,7 @@ output: html_document
 
 ```{r message = FALSE}
 library(tidyverse)
+library(diplyr)
 student_loans <- read_delim("data/Student Loan Debt by School 2020-2021.csv")
 ```
 
@@ -64,6 +65,20 @@ included (Puerto Rico, DC, and so forth.)
 
 
 ### 2. Compute top 10 average loans by city. Organize city school loans by state (Nick)
+```{r}
+city_state_loans <- student_loans %>%
+  group_by(City, State) %>%
+  summarize(total_loan = sum(`$ of Disbursements`))
+
+top_schools_by_city <- city_state_loans %>%
+  arrange(State, desc(total_loan)) %>%
+  group_by(State) %>%
+  top_n(10, total_loan) %>%
+  arrange(State, desc(total_loan))
+
+print(top_schools_by_city)
+```
+
 
 
 
