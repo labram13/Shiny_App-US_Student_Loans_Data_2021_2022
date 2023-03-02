@@ -98,3 +98,16 @@ student_loans %>%
 
 ### 5. Categorize public and private schools with their average loans taken out. (Everyone)
 
+```{r}
+student_loans %>% 
+  filter(`Loan Type` == "Total",
+         !is.na(`$ of Disbursements`),
+         !is.na(`School Type`)) %>% 
+  group_by(`School Type`, School) %>% 
+  summarize(total_loans = max(`$ of Disbursements`)) %>% 
+  group_by(`School Type`) %>% 
+  summarize(avg_loans = mean(total_loans)) %>% 
+  arrange(rank(desc(avg_loans)))
+```
+
+
