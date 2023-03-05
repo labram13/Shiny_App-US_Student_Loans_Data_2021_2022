@@ -15,15 +15,7 @@ ui <- fluidPage(
                            )
                          )
                 ),
-                tabPanel("The What and Why",
-                         sidebarLayout(
-                           sidebarPanel(
-                           ),
-                           mainPanel(
-                           )
-                         )
-                ),
-                tabPanel("Table",
+                tabPanel("Data: Megan",
                          sidebarLayout(
                            sidebarPanel(
                     
@@ -33,7 +25,7 @@ ui <- fluidPage(
                         )
         
               ),
-              tabPanel("Plot",
+              tabPanel("Data: Mike",
                        sidebarLayout(
                          sidebarPanel(
                            
@@ -42,9 +34,28 @@ ui <- fluidPage(
     
                           )
                         )
+                      ),
+              tabPanel("Data: Nick",
+                       sidebarLayout(
+                         sidebarPanel(
+                           
+                         ),
+                         mainPanel(
+                         )
+                       )
+              ),
+              tabPanel("Conclusion",
+                       sidebarLayout(
+                         sidebarPanel(
+                           
+                         ),
+                         mainPanel(
+                         )
+                       )
               )
     )
-)
+          )
+
 
 server <- function(input, output) {
 }
