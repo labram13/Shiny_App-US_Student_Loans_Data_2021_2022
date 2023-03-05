@@ -2,12 +2,12 @@ library(shiny)
 library(tidyverse)
 library(dplyr)
 
-student_loans <- read_delim("data/Student Loan Debt by School 2020-2021.csv")
+student_loans <- read_delim("../data/Student Loan Debt by School 2020-2021.csv")
 
 ui <- fluidPage(
     titlePanel("Student Loans 2020-2021"),
     tabsetPanel(type = "tabs",
-                tabPanel("General Information",
+                tabPanel("Overview:",
                          sidebarLayout(
                            sidebarPanel (
                            ),
@@ -15,7 +15,7 @@ ui <- fluidPage(
                            )
                          )
                 ),
-                tabPanel("Plot Data",
+                tabPanel("The What and Why",
                          sidebarLayout(
                            sidebarPanel(
                            ),
@@ -23,16 +23,27 @@ ui <- fluidPage(
                            )
                          )
                 ),
-                tabPanel("Summary",
+                tabPanel("Table",
                          sidebarLayout(
                            sidebarPanel(
-                             
-        ),
+                    
+                ),
                           mainPanel(
+                          )
+                        )
+        
+              ),
+              tabPanel("Plot",
+                       sidebarLayout(
+                         sidebarPanel(
+                           
+                         ),
+                         mainPanel(
+    
+                          )
+                        )
               )
-         )
     )
-  )
 )
 
 server <- function(input, output) {
