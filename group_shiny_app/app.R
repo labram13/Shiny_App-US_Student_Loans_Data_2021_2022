@@ -18,11 +18,23 @@ ui <- fluidPage(
                 tabPanel("Data: Megan",
                          sidebarLayout(
                            sidebarPanel(
-                    
-                ),
-                          mainPanel(
-                          )
-                        )
+                             selectInput("school-type",
+                                         "What school type would you like to see
+                                        the average debt for?",
+                                         choices = c("Private-Nonprofit", "Proprietary",
+                                                     "Public", "Foreign-Public",
+                                                     "Foreign-Private"),
+                                         selected = "Private-Nonprofit")
+                             
+                           ),
+                           mainPanel(
+                             tableOutput("table"),
+                             textOutput("tableInfo")
+                           )
+                         )
+                         
+                )
+                
         
               ),
               tabPanel("Data: Mike",
@@ -84,6 +96,22 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   #-------Megan's code---------
+  output$table <- renderTable ({
+    student_loans %>%
+      filter(`School Type` == input$school_type) %>%
+      group_by(School) %>%
+      filter(!is.na(School), !is.na(Recipients)) %>%
+      summarise(avg = mean(Recipients)) %>%
+      select(School, `School Type`, avg) %>%
+      arrange(desc(avg))
+  })
+  
+  output$tableInfo <- renderPrint ({
+    num <- student_loans %>%
+      filter(`School Type` == input$school_type) %>%
+      nrow()
+    cat("There are ", num, " ", input$school_type, " schools.")
+  })
   
   
   #-------Mike's code----------
