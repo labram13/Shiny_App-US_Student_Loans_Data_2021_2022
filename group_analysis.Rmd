@@ -57,6 +57,21 @@ student_loans %>%
   arrange(rank(desc(avg_loan))) %>% 
   head(10)
 ```
+```{r}
+library(forcats)
+plt <- student_loans %>% 
+  filter(`Loan Type` == "Total",
+         !is.na(`$ of Disbursements`),
+         !is.na(State)) %>% 
+  group_by(State, School) %>% 
+  summarize(total_loans = max(`$ of Disbursements`))
+plt %>% 
+  group_by(State) %>% 
+  reframe(avg_loan = mean(total_loans)) %>% 
+  arrange(rank(desc(avg_loan))) %>% 
+  ggplot(aes(x = forcats::fct_reorder(State, desc(avg_loan)), y = avg_loan)) + 
+  geom_col()
+```
 
 
 
