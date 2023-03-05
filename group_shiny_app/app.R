@@ -1,6 +1,8 @@
 library(shiny)
 library(tidyverse)
 library(dplyr)
+library(forcats)
+library(viridis)
 
 student_loans <- read_delim("../data/Student Loan Debt by School 2020-2021.csv")
 
@@ -25,17 +27,12 @@ ui <- fluidPage(
                                                      "Public", "Foreign-Public",
                                                      "Foreign-Private"),
                                          selected = "Private-Nonprofit")
-                             
                            ),
                            mainPanel(
                              tableOutput("table"),
                              textOutput("tableInfo")
                            )
                          )
-                         
-                )
-                
-        
               ),
               tabPanel("Data: Mike",
                        sidebarLayout(
@@ -84,14 +81,14 @@ ui <- fluidPage(
               tabPanel("Conclusion",
                        sidebarLayout(
                          sidebarPanel(
-                           
                          ),
                          mainPanel(
                          )
                        )
               )
     )
-          )
+)
+          
 
 
 server <- function(input, output) {
@@ -112,10 +109,11 @@ server <- function(input, output) {
       nrow()
     cat("There are ", num, " ", input$school_type, " schools.")
   })
-  
-  
+
   #-------Mike's code----------
-  plt <- student_loans %>% 
+  
+  # Data manipulated to find average loan per state. 
+  avg_loan_per_state <- student_loans %>% 
     filter(`Loan Type` == "Total",
            !is.na(`$ of Disbursements`),
            !is.na(State)) %>% 
@@ -123,10 +121,10 @@ server <- function(input, output) {
     summarize(total_loans = max(`$ of Disbursements`)) %>% 
     group_by(State) %>% 
     reframe(avg_loan = mean(total_loans))
-  output$intro <- renderDataTable({
-    student_loans %>% 
-      head(5)
-  })
+  
+  # Creates widget to with checkboxes to allow user to type or pick
+  # which states they would like to filter. Can select multiple
+  # to compare and contrast. 
   output$checkboxState <- renderUI({
     selectizeInput(
       "State", strong("Select State or Type State abbr. e.g. WA"),
@@ -134,12 +132,18 @@ server <- function(input, output) {
       multiple = TRUE
     )
   })
-  sample <- reactive({
-    plt %>% 
+  
+  # Create a reactive response for the column name state of the
+  # manipulated data. 
+  state_filter <- reactive({
+    avg_loan_per_state %>% 
       filter(State %in% input$State)
   })
+  
+  # Renders the plot with labels. Added a color palette option to give 
+  # user visual options. 
   output$plot <- renderPlot ({
-    ggplot(data = sample()) +
+    ggplot(data = state_filter()) +
       geom_col(aes(x = forcats::fct_reorder(State, desc(avg_loan)), 
                    y = avg_loan, fill = State ),
                labels =scales::comma
@@ -151,8 +155,12 @@ server <- function(input, output) {
            y = "$ of Average Loans") +
       scale_fill_viridis(discrete = TRUE, option = input$color)
   })
+  
+  # Message that shows up below the graph if nothing is selected. 
+  # Message disappears once user has selected some states. 
+  
   output$result <- renderText({
-    max <- sample() %>% 
+    max <- state_filter() %>% 
       pull(avg_loan) %>% 
       max()
     if(is.infinite(max))
@@ -161,56 +169,68 @@ server <- function(input, output) {
       ""
   })
   
-  
+  # Message that shows all the State's the user has chosen. 
+  output$selected <- renderUI({
+    HTML(paste(input$State, sep ="<br/>"))
+  })
+  output$top10 <- renderText({
+    if (is.null(input$choose)){
+      y = plt %>% head(10)
+      paste(y$State, sep=",")
+    } else {
+      x = loan_table()
+      y = x %>% head(10)
+      paste(y$State)
+    }
+  })
   #-------Nick's code----------
   
-  city_state_loans <- student_loans %>%
-    group_by(City, State) %>%
-    summarize(total_loan = sum(`$ of Disbursements`))
-  
-  top_schools_by_city <- city_state_loans %>%
-    arrange(State, desc(total_loan)) %>%
-    group_by(State) %>%
-    top_n(10, total_loan) %>%
-    arrange(State, desc(total_loan))
-  output$checkboxState <- renderUI({
-    tagList(
-      selectizeInput(
-        "State", strong("Select State or Type State abbr. e.g. WA"),
-        choices = unique(student_loans$State),
-        multiple = TRUE
-      ),
-      selectizeInput(
-        "City", strong("Search by City"),
-        choices = NULL,
-        multiple = TRUE
-      )
-    )
-  })
-  sample <- reactive({
-    plt %>%
-      filter(State %in% input$State,
-             City %in% input$City)
-  })
-  labs(title = paste("Average Loans Taken Out By Students per State and City",
-                     if (length(input$State) > 0) paste0(" in ", paste(input$State, collapse = ", ")),
-                     if (length(input$City) > 0) paste0(" - ", paste(input$City, collapse = ", ")),
-                     sep = ""))
-  output$result <- renderText({
-    max <- sample() %>%
-      pull(avg_loan) %>%
-      max()
-    if (is.infinite(max))
-      "Please select some states or cities to start showing data."
-    else
-      paste("Showing data for",
-            if (length(input$State) > 0) paste0("state(s) ", paste(input$State, collapse = ", ")),
-            if (length(input$State) > 0 && length(input$City) > 0) " and",
-            if (length(input$City) > 0) paste0("city(s) ", paste(input$City, collapse = ", ")),
-            sep = " ")
-  })
-  
-  
+  # city_state_loans <- student_loans %>%
+  #   group_by(City, State) %>%
+  #   summarize(total_loan = sum(`$ of Disbursements`))
+  # 
+  # top_schools_by_city <- city_state_loans %>%
+  #   arrange(State, desc(total_loan)) %>%
+  #   group_by(State) %>%
+  #   top_n(10, total_loan) %>%
+  #   arrange(State, desc(total_loan))
+  # output$checkboxState <- renderUI({
+  #   tagList(
+  #     selectizeInput(
+  #       "State", strong("Select State or Type State abbr. e.g. WA"),
+  #       choices = unique(student_loans$State),
+  #       multiple = TRUE
+  #     ),
+  #     selectizeInput(
+  #       "City", strong("Search by City"),
+  #       choices = NULL,
+  #       multiple = TRUE
+  #     )
+  #   )
+  # })
+  # sample <- reactive({
+  #   plt %>%
+  #     filter(State %in% input$State,
+  #            City %in% input$City)
+  # })
+  # labs(title = paste("Average Loans Taken Out By Students per State and City",
+  #                    if (length(input$State) > 0) paste0(" in ", paste(input$State, collapse = ", ")),
+  #                    if (length(input$City) > 0) paste0(" - ", paste(input$City, collapse = ", ")),
+  #                    sep = ""))
+  # output$result <- renderText({
+  #   max <- sample() %>%
+  #     pull(avg_loan) %>%
+  #     max()
+  #   if (is.infinite(max))
+  #     "Please select some states or cities to start showing data."
+  #   else
+  #     paste("Showing data for",
+  #           if (length(input$State) > 0) paste0("state(s) ", paste(input$State, collapse = ", ")),
+  #           if (length(input$State) > 0 && length(input$City) > 0) " and",
+  #           if (length(input$City) > 0) paste0("city(s) ", paste(input$City, collapse = ", ")),
+  #           sep = " ")
+  # })
+
   #-------Nathaniel's code----------
 }
 
