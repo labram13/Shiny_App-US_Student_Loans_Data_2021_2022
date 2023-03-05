@@ -98,7 +98,46 @@ print(top_schools_by_city)
 
 
 ### 3. Organize and arrange highest to lowest loan types taken out (Nathaniel)
+```{r}
 
+{r}
+student_loans <- read_delim("Student Loan Debt by School 2020-2021.csv")
+dim(student_loans)
+
+{r}
+student_loans %>% 
+  filter(!is.na(`Loan Type`), 
+         `Loan Type` == "Subsidized") %>% 
+  arrange(rank(desc(`$ of Disbursements`))) %>% 
+  select(School, `Loan Type`, `$ of Disbursements`)
+
+{r}
+student_loans %>% 
+  filter(!is.na(`Loan Type`), 
+         `Loan Type` == "Unsubsidized - Undergraduate") %>% 
+  arrange(rank(desc(`$ of Disbursements`))) %>% 
+  select(School, `Loan Type`, `$ of Disbursements`)
+
+{r}
+student_loans %>% 
+  filter(!is.na(`Loan Type`), 
+         `Loan Type` == "Unsubsidized - Graduate") %>% 
+  arrange(rank(desc(`$ of Disbursements`))) %>% 
+  select(School, `Loan Type`, `$ of Disbursements`)
+
+{r}
+student_loans %>% 
+  filter(!is.na(`Loan Type`), 
+         `Loan Type` == "Grad Plus") %>% 
+  arrange(rank(desc(`$ of Disbursements`))) %>% 
+  select(School, `Loan Type`, `$ of Disbursements`)
+{r}
+student_loans %>% 
+  filter(!is.na(`Loan Type`), 
+         `Loan Type` == "Parent Plus") %>% 
+  arrange(rank(desc(`$ of Disbursements`))) %>% 
+  select(School, `Loan Type`, `$ of Disbursements`)
+```
 
 
 ### 4. Compute average number of recipients who received a loan per college. (Megan)

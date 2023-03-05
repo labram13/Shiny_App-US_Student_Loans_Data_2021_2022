@@ -25,7 +25,7 @@ ui <- fluidPage(
                         )
         
               ),
-              tabPanel("Plot",
+              tabPanel("Data: Mike",
                        sidebarLayout(
                          sidebarPanel(h3(strong("Average Loans per State:\n")),
                                       p(),
