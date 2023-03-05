@@ -136,6 +136,51 @@ server <- function(input, output) {
   
   #-------Nick's code----------
   
+  city_state_loans <- student_loans %>%
+    group_by(City, State) %>%
+    summarize(total_loan = sum(`$ of Disbursements`))
+  
+  top_schools_by_city <- city_state_loans %>%
+    arrange(State, desc(total_loan)) %>%
+    group_by(State) %>%
+    top_n(10, total_loan) %>%
+    arrange(State, desc(total_loan))
+  output$checkboxState <- renderUI({
+    tagList(
+      selectizeInput(
+        "State", strong("Select State or Type State abbr. e.g. WA"),
+        choices = unique(student_loans$State),
+        multiple = TRUE
+      ),
+      selectizeInput(
+        "City", strong("Search by City"),
+        choices = NULL,
+        multiple = TRUE
+      )
+    )
+  })
+  sample <- reactive({
+    plt %>%
+      filter(State %in% input$State,
+             City %in% input$City)
+  })
+  labs(title = paste("Average Loans Taken Out By Students per State and City",
+                     if (length(input$State) > 0) paste0(" in ", paste(input$State, collapse = ", ")),
+                     if (length(input$City) > 0) paste0(" - ", paste(input$City, collapse = ", ")),
+                     sep = ""))
+  output$result <- renderText({
+    max <- sample() %>%
+      pull(avg_loan) %>%
+      max()
+    if (is.infinite(max))
+      "Please select some states or cities to start showing data."
+    else
+      paste("Showing data for",
+            if (length(input$State) > 0) paste0("state(s) ", paste(input$State, collapse = ", ")),
+            if (length(input$State) > 0 && length(input$City) > 0) " and",
+            if (length(input$City) > 0) paste0("city(s) ", paste(input$City, collapse = ", ")),
+            sep = " ")
+  })
   
   
   #-------Nathaniel's code----------
