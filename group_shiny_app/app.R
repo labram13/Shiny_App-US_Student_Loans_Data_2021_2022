@@ -87,10 +87,58 @@ server <- function(input, output) {
   
   
   #-------Mike's code----------
-  
+  plt <- student_loans %>% 
+    filter(`Loan Type` == "Total",
+           !is.na(`$ of Disbursements`),
+           !is.na(State)) %>% 
+    group_by(State, School) %>% 
+    summarize(total_loans = max(`$ of Disbursements`)) %>% 
+    group_by(State) %>% 
+    reframe(avg_loan = mean(total_loans))
+  output$intro <- renderDataTable({
+    student_loans %>% 
+      head(5)
+  })
+  output$checkboxState <- renderUI({
+    selectizeInput(
+      "State", strong("Select State or Type State abbr. e.g. WA"),
+      choices =  unique(student_loans$State),
+      multiple = TRUE
+    )
+  })
+  sample <- reactive({
+    plt %>% 
+      filter(State %in% input$State)
+  })
+  output$plot <- renderPlot ({
+    ggplot(data = sample()) +
+      geom_col(aes(x = forcats::fct_reorder(State, desc(avg_loan)), 
+                   y = avg_loan, fill = State ),
+               labels =scales::comma
+      ) +
+      scale_y_continuous(labels = scales::comma) +
+      theme(legend.position="none")+
+      labs(title = "Average Loans Taken Out By Students per State",
+           x = "State",
+           y = "$ of Average Loans") +
+      scale_fill_viridis(discrete = TRUE, option = input$color)
+  })
+  output$result <- renderText({
+    max <- sample() %>% 
+      pull(avg_loan) %>% 
+      max()
+    if(is.infinite(max))
+      paste("Please select some states to start showing showing data.")
+    else
+      ""
+  })
   
   
   #-------Nick's code----------
+  
+  
+  
+  #-------Nathaniel's code----------
 }
 
 shinyApp(ui = ui, server = server)
