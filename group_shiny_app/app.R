@@ -11,7 +11,7 @@ ui <- fluidPage(
                            )
                          )
                 ),
-                tabPanel("Plot",
+                tabPanel("Plot Data",
                          sidebarLayout(
                            sidebarPanel(
                            ),
@@ -19,7 +19,7 @@ ui <- fluidPage(
                            )
                          )
                 ),
-                tabPanel("Table",
+                tabPanel("Summary",
                          sidebarLayout(
                            sidebarPanel(
                              
