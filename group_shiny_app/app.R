@@ -20,7 +20,7 @@ ui <- fluidPage(
                 tabPanel("Data: Megan",
                          sidebarLayout(
                            sidebarPanel(
-                             selectInput("school-type",
+                             selectInput("school_type",
                                          "What school type would you like to see
                                         the average debt for?",
                                          choices = c("Private-Nonprofit", "Proprietary",
@@ -93,18 +93,20 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   #-------Megan's code---------
+  school_type <- student_loans %>% group_by(School) %>%
+    filter(!is.na(School), !is.na(Recipients)) %>%
+    group_by(School, `School Type`) %>% 
+    summarize(average_recipients = mean(Recipients)) %>%
+    #select(School, `School Type`, average) %>%
+    arrange(desc(average_recipients))
+  
   schooltype <- reactive ({
-    student_loans %>%
+    school_type %>%
       filter(`School Type` %in% input$school_type)
   })
   
   output$table <- renderTable ({
-    schooltype() %>%
-      group_by(School) %>%
-      filter(!is.na(School), !is.na(Recipients)) %>%
-      mutate(average = mean(Recipients)) %>%
-      select(School, `School Type`, average) %>%
-      arrange(desc(average))
+    schooltype() 
   })
   
   output$tableInfo <- renderPrint ({
