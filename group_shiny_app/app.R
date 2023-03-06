@@ -19,18 +19,26 @@ ui <- fluidPage(
                 ),
                 tabPanel("Data: Megan",
                          sidebarLayout(
-                           sidebarPanel(
+                           sidebarPanel(h3(strong("Average Recipients by School type:\n")),
+                                        p(),
+                                        p("In this tab, you are able to view the average
+                                          amount of loan recipients a school has by the
+                                          type of school it is. From this, you can predict
+                                          the likelihood of receiving a good financial
+                                          aid package from the school, and compare the
+                                          amount of loan recipients from one school to
+                                          another school of the same type."),
                              selectInput("school_type",
                                          "What school type would you like to see
-                                        the average debt for?",
+                                        the amount of average loan recipients for?",
                                          choices = c("Private-Nonprofit", "Proprietary",
                                                      "Public", "Foreign-Public",
                                                      "Foreign-Private"),
-                                         selected = "Private-Nonprofit")
+                                         selected = "Private-Nonprofit"),
                            ),
                            mainPanel(
-                             tableOutput("table"),
-                             textOutput("tableInfo")
+                             textOutput("tableInfo"),
+                             dataTableOutput("table")
                            )
                          )
               ),
@@ -97,7 +105,6 @@ server <- function(input, output) {
     filter(!is.na(School), !is.na(Recipients)) %>%
     group_by(School, `School Type`) %>% 
     summarize(average_recipients = mean(Recipients)) %>%
-    #select(School, `School Type`, average) %>%
     arrange(desc(average_recipients))
   
   schooltype <- reactive ({
@@ -105,12 +112,12 @@ server <- function(input, output) {
       filter(`School Type` %in% input$school_type)
   })
   
-  output$table <- renderTable ({
+  output$table <- renderDataTable ({
     schooltype() 
   })
   
   output$tableInfo <- renderPrint ({
-    num <- student_loans %>%
+    num <- school_type %>%
       filter(`School Type` %in% input$school_type) %>%
       nrow()
     cat("There are ", num, " ", input$school_type, " schools.")
