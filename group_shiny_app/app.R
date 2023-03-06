@@ -93,19 +93,23 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   #-------Megan's code---------
-  output$table <- renderTable ({
+  schooltype <- reactive ({
     student_loans %>%
-      filter(`School Type` == input$school_type) %>%
+      filter(`School Type` %in% input$school_type)
+  })
+  
+  output$table <- renderTable ({
+    schooltype() %>%
       group_by(School) %>%
       filter(!is.na(School), !is.na(Recipients)) %>%
-      summarise(avg = mean(Recipients)) %>%
-      select(School, `School Type`, avg) %>%
-      arrange(desc(avg))
+      mutate(average = mean(Recipients)) %>%
+      select(School, `School Type`, average) %>%
+      arrange(desc(average))
   })
   
   output$tableInfo <- renderPrint ({
     num <- student_loans %>%
-      filter(`School Type` == input$school_type) %>%
+      filter(`School Type` %in% input$school_type) %>%
       nrow()
     cat("There are ", num, " ", input$school_type, " schools.")
   })
