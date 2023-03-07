@@ -158,23 +158,33 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   #-------Megan's code---------
-  school_type <- student_loans %>% group_by(School) %>%
+  
+  # Finds the average amount of loan recipients per school
+  avg_recipients <- student_loans %>% 
+    group_by(School) %>%
     filter(!is.na(School), !is.na(Recipients)) %>%
     group_by(School, `School Type`) %>% 
     summarize(average_recipients = mean(Recipients)) %>%
     arrange(desc(average_recipients))
   
+  # Filters the average amount of loan recipients by 
+  # user's input of school type
   schooltype <- reactive ({
-    school_type %>%
+    avg_recipients %>%
       filter(`School Type` %in% input$school_type)
   })
   
+  # Renders a data table that shows the average amount of loan
+  # recipients of a school, with the data filtered out by the
+  # reactive variable, schooltype
   output$table <- renderDataTable ({
     schooltype() 
   })
   
+  # Message that shows how many schools there are that are displayed
+  # in the data table
   output$tableInfo <- renderPrint ({
-    num <- school_type %>%
+    num <- avg_recipients %>%
       filter(`School Type` %in% input$school_type) %>%
       nrow()
     cat("There are ", num, " ", input$school_type, " schools.")
