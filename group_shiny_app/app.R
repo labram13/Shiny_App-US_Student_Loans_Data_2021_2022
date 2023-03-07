@@ -3,7 +3,7 @@ library(tidyverse)
 library(dplyr)
 library(forcats)
 library(viridis)
-
+install.packages("viridis")
 student_loans <- read_delim("../data/Student Loan Debt by School 2020-2021.csv")
 
 ui <- fluidPage(
@@ -118,12 +118,37 @@ ui <- fluidPage(
                        sidebarLayout(
                          sidebarPanel(
                          ),
-                         mainPanel(
+                         mainPanel(HTML('<left><img src="https://www.commercebank.com/-/media/cb/articles/personal/2019/lg-header-lg-header-got-student-loans-understanding-repayment-options-desktop.png?revision=0dacb695-c1cc-4aa2-8f99-b5d4ad35dce1&modified=20200313180213", height = "320px"></left>'),
+                                   HTML(
+                                     paste0(
+                                       h3(strong("Overall Conclusions")),'<br/>',
+      
+                                       p(style="text-align:justify;", "For various reasons, obtaining a student loan for a foreign school might be more complicated than for a public school.
+                                         To begin, student loan qualifying rules differ across public and private colleges. 
+                                         If you are a resident of the state where the school is situated, or if you attend a public university with a long-standing relationship with the lender, you may find it simpler to apply for a loan for a public school.
+                                         Moreover, lenders may see loans to foreign schools as risky for reasons such as language hurdles, cultural differences, and a need for more understanding of the academic quality of the foreign institution. 
+                                         Moreover, foreign colleges may not be recognized as qualifying institutions by the lender or the government, resulting in limited loan program alternatives. 
+                                         Finally, the cost of attending a foreign school, including expenditures such as flight and lodging, may be greater, resulting in more significant loan amounts and tighter approval conditions. 
+                                         In general, acquiring a student loan for a foreign school might be more challenging, necessitating more study and planning. 
+                                         This may explain the need for entries for loans for private and foreign institutions. "), '<br/>',
+                                       
+                                       p("Many variables contribute to the East Coast having a higher frequency of student loans than the West Coast. 
+                                        For starters, the cost of living on the East Coast is often higher, which includes more tuition and living expenditures. 
+                                        Students may need additional loans to cover their education and living expenses. 
+                                        Also, on the East Coast, some more prestigious universities and colleges may draw more students and have higher tuition prices.
+                                        Because of the more significant population density on the East Coast, there are more students overall, which may lead to more student loans. 
+                                        Third, because the employment market on the East Coast is often more competitive, more students may pursue higher education to improve their career chances. 
+                                        While numerous variables likely contribute to the East Coast's more significant number of student loans, the higher cost of living and the more substantial number of top colleges are certainly vital causes.
+                                      ")
+                                       )
+                                       )
+                                       )
+                                       ),
                          )
                        )
               )
-    )
-)
+  
+
           
 
 
