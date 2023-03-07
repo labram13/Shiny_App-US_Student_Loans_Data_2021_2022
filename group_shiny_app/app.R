@@ -111,7 +111,9 @@ ui <- fluidPage(
                          sidebarPanel(h3(strong("Average Loans per City: \n")),
                                       p(),
                                       p("Here, you are able to see the average loans students have taken out by city.\n"),
-                                      p("To use this, first select the states that the cities you are planning to compare are located in. Once you have selected the states, select the cities in the second text box. The cities that appear in the text box are already filtered to be from the states you have selected."),
+                                      p("To use this, first select the states that the cities you are planning to compare are located in. 
+                                        Once you have selected the states, select the cities in the second text box. 
+                                        The cities that appear in the text box are already filtered to be from the states you have selected."),
                                       selectizeInput("state", "Select State(s)", choices = unique(student_loans$State), multiple = TRUE),
                                       selectizeInput("city", "Select City(s)", choices = unique(student_loans$City), multiple = TRUE)
                          ),
@@ -259,7 +261,8 @@ server <- function(input, output, session) {
   # Store the selected cities
   selected_cities <- reactiveVal(NULL)
   
-  # Filter the data based on the selected state and cities
+  # Filter the data based on the selected state and cities and averages the loans per
+  # city
   filtered_data <- reactive({
     student_loans %>%
       filter(State %in% input$state) %>%
@@ -268,7 +271,7 @@ server <- function(input, output, session) {
       filter(City %in% selected_cities())
   })
   
-  # Update the choices for the city selectizeInput based on the selected state
+  # Update the choices for the city based on the selected state
   observeEvent(input$state, {
     choices <- unique(student_loans$City[student_loans$State %in% input$state])
     updateSelectizeInput(session, "city", choices = choices, server = TRUE)
@@ -293,11 +296,6 @@ server <- function(input, output, session) {
   })
 
   
-  # Update the selected cities when the user changes the selection
-  observeEvent(input$city, {
-    selected_cities(input$city)
-  })
-
 
 
 
