@@ -3,6 +3,7 @@ library(tidyverse)
 library(dplyr)
 library(forcats)
 library(viridis)
+library(ggplot2)
 install.packages("viridis")
 student_loans <- read_delim("../data/Student Loan Debt by School 2020-2021.csv")
 
@@ -107,10 +108,15 @@ ui <- fluidPage(
                       ),
               tabPanel("Data: Nick",
                        sidebarLayout(
-                         sidebarPanel(
-                           
+                         sidebarPanel(h3(strong("Average Loans per City: \n")),
+                                      p(),
+                                      p("Here, you are able to see the average loans students have taken out by city.\n"),
+                                      p("To use this, first select the states that the cities you are planning to compare are located in. Once you have selected the states, select the cities in the second text box. The cities that appear in the text box are already filtered to be from the states you have selected."),
+                                      selectizeInput("state", "Select State(s)", choices = unique(student_loans$State), multiple = TRUE),
+                                      selectizeInput("city", "Select City(s)", choices = unique(student_loans$City), multiple = TRUE)
                          ),
                          mainPanel(
+                           plotOutput("barplot")
                          )
                        )
               ),
@@ -152,7 +158,7 @@ ui <- fluidPage(
           
 
 
-server <- function(input, output) {
+server <- function(input, output, session) {
   #-------Megan's code---------
   school_type <- student_loans %>% group_by(School) %>%
     filter(!is.na(School), !is.na(Recipients)) %>%
@@ -250,52 +256,50 @@ server <- function(input, output) {
     }
   })
   #-------Nick's code----------
+  # Store the selected cities
+  selected_cities <- reactiveVal(NULL)
   
-  # city_state_loans <- student_loans %>%
-  #   group_by(City, State) %>%
-  #   summarize(total_loan = sum(`$ of Disbursements`))
-  # 
-  # top_schools_by_city <- city_state_loans %>%
-  #   arrange(State, desc(total_loan)) %>%
-  #   group_by(State) %>%
-  #   top_n(10, total_loan) %>%
-  #   arrange(State, desc(total_loan))
-  # output$checkboxState <- renderUI({
-  #   tagList(
-  #     selectizeInput(
-  #       "State", strong("Select State or Type State abbr. e.g. WA"),
-  #       choices = unique(student_loans$State),
-  #       multiple = TRUE
-  #     ),
-  #     selectizeInput(
-  #       "City", strong("Search by City"),
-  #       choices = NULL,
-  #       multiple = TRUE
-  #     )
-  #   )
-  # })
-  # sample <- reactive({
-  #   plt %>%
-  #     filter(State %in% input$State,
-  #            City %in% input$City)
-  # })
-  # labs(title = paste("Average Loans Taken Out By Students per State and City",
-  #                    if (length(input$State) > 0) paste0(" in ", paste(input$State, collapse = ", ")),
-  #                    if (length(input$City) > 0) paste0(" - ", paste(input$City, collapse = ", ")),
-  #                    sep = ""))
-  # output$result <- renderText({
-  #   max <- sample() %>%
-  #     pull(avg_loan) %>%
-  #     max()
-  #   if (is.infinite(max))
-  #     "Please select some states or cities to start showing data."
-  #   else
-  #     paste("Showing data for",
-  #           if (length(input$State) > 0) paste0("state(s) ", paste(input$State, collapse = ", ")),
-  #           if (length(input$State) > 0 && length(input$City) > 0) " and",
-  #           if (length(input$City) > 0) paste0("city(s) ", paste(input$City, collapse = ", ")),
-  #           sep = " ")
-  # })
+  # Filter the data based on the selected state and cities
+  filtered_data <- reactive({
+    student_loans %>%
+      filter(State %in% input$state) %>%
+      group_by(City) %>%
+      summarize(`$ of Disbursements` = mean(`$ of Disbursements`)) %>%
+      filter(City %in% selected_cities())
+  })
+  
+  # Update the choices for the city selectizeInput based on the selected state
+  observeEvent(input$state, {
+    choices <- unique(student_loans$City[student_loans$State %in% input$state])
+    updateSelectizeInput(session, "city", choices = choices, server = TRUE)
+    if (!is.null(selected_cities())) {
+      updateSelectizeInput(session, "city", selected = selected_cities()[selected_cities() %in% choices])
+    }
+  })
+  
+  # Update the selected cities when the user changes the selection
+  observeEvent(input$city, {
+    selected_cities(input$city)
+  })
+  
+  # Create the bar plot
+  output$barplot <- renderPlot({
+    ggplot(filtered_data(), aes(x = reorder(City, -`$ of Disbursements`), y = `$ of Disbursements`, fill = City)) +
+      geom_bar(stat = "identity") +
+      xlab("City") +
+      ylab("Average Student Loan Disbursements") +
+      ggtitle(paste("Average Student Loan Disbursements by City in", paste(input$state, collapse = ", "))) +
+      scale_y_continuous(labels = scales::dollar_format(big.mark = ",", decimal.mark = ".", prefix = "$", suffix = "", accuracy = 1))
+  })
+
+  
+  # Update the selected cities when the user changes the selection
+  observeEvent(input$city, {
+    selected_cities(input$city)
+  })
+
+
+
 
   #-------Nathaniel's code----------
 }
