@@ -17,20 +17,21 @@ ui <- fluidPage(
                        mainPanel(
                          HTML('<left><img src="https://justbuildwealth.com/wp-content/uploads/2019/02/pay-off-studen-loan-burden-fast.jpg", height = "320px"></left>'),
                          HTML(
-                           paste(
+                           paste0(
                              h3(strong("The Burden and Impact of Student Loans on Higher Education: 
                                   An Analysis of Student Loan Debt Data from 2020-2021 Academic Year")),'<br/>',
                              h4(em("By Michaelangelo Labrador, Megan Yam, 
                                      Stephen Nicklaus Likin, and Nathaniel Sayasack"), style = "color:black"),'<br/>',
-                             p(style="text-align:justify;", " While student loans are essential for many students to pay for college, they also have several disadvantages that can substantially influence students and their decision to attend college.
+                             p(style="text-align:justify;", "While student loans are essential for many students to pay for college, they also have several disadvantages that can substantially influence students and their decision to attend college.
                                              One significant disadvantage is the debt burden that students endure after graduation, which can have a long-term impact on their financial stability.
                                              Student loan interest rates can cause substantial financial stress and pressure on graduates' budgets, making it difficult to handle other financial commitments such as housing, transportation, and healthcare.
                                              Additionally, students who borrow money for education may feel driven to seek higher-paying jobs rather than their hobbies or interests.
                                              This pressure may limit their employment opportunities and compel them to choose financial security above personal fulfillment.
                                              Furthermore, students with large loan debt may feel obliged to postpone major life milestones such as starting a family, purchasing a home, or furthering their education.
                                              Fear of incurring substantial amounts of debt can also deter students from enrolling in college, particularly those from low-income families who may not have the financial ability to attend college without significant borrowing.
-                                             This can limit their economic mobility chances and promote social and economic inequity.
-                                             Ultimately, while student loans might enable access to higher education, they also have significant downsides that can long-term influence students' life.
+                                             This can limit their economic mobility chances and promote social and economic inequity."), '<br/>',
+                             
+                                             p("Ultimately, while student loans might enable access to higher education, they also have significant downsides that can long-term influence students' life.
                                              To limit the burden of debt, students must carefully assess the financial consequences of taking out loans and investigate alternate sources of income, such as grants and scholarships.
                                              This study examines data on student loan debt acquired by Andy Kriebel from various universities and colleges throughout the 2020-2021 academic year.
                                              The information in the data collection comprises school names, states, zip codes, school kids, and loan types.
