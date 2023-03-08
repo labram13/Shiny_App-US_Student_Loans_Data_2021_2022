@@ -32,9 +32,11 @@ ui <- fluidPage(
                                              Fear of incurring substantial amounts of debt can also deter students from enrolling in college, particularly those from low-income families who may not have the financial ability to attend college without significant borrowing.
                                              This can limit their economic mobility chances and promote social and economic inequity."), '<br/>',
                              
-                                             p("Ultimately, while student loans might enable access to higher education, they also have significant downsides that can long-term influence students' life.
+                                             ("Ultimately, while student loans might enable access to higher education, they also have significant downsides that can long-term influence students' life.
                                              To limit the burden of debt, students must carefully assess the financial consequences of taking out loans and investigate alternate sources of income, such as grants and scholarships.
-                                             This study examines data on student loan debt acquired by Andy Kriebel from various universities and colleges throughout the 2020-2021 academic year.
+                                             This study examines data on student loan debt acquired by "),
+                                             tags$a(href="https://www.kaggle.com/datasets/thedevastator/the-schools-that-create-the-most-student-debt?resource=download", "Andy Kriebel "),
+                                             ("from various universities and colleges throughout the 2020-2021 academic year.
                                              The information in the data collection comprises school names, states, zip codes, school kids, and loan types.
                                              The intended audience for this information varies, but it is precious for parents who may make informed judgments about which schools to send their children to based on the average loan taken out per student.
                                              The data collection can also assist students in planning their post-college lives and determining how much student debt they will have to repay.
