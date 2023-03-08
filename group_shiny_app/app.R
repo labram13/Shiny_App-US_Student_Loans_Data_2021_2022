@@ -302,12 +302,6 @@ server <- function(input, output, session) {
       ggtitle(paste("Average Student Loan Disbursements by City in", paste(input$state, collapse = ", "))) +
       scale_y_continuous(labels = scales::dollar_format(big.mark = ",", decimal.mark = ".", prefix = "$", suffix = "", accuracy = 1))
   })
-
-  
-
-
-
-  #-------Nathaniel's code----------
 }
 
 shinyApp(ui = ui, server = server)
