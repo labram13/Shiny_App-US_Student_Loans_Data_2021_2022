@@ -1,3 +1,4 @@
+#Initializing the libraries
 library(shiny)
 library(tidyverse)
 library(dplyr)
@@ -5,8 +6,10 @@ library(forcats)
 library(viridis)
 library(ggplot2)
 install.packages("viridis")
+#Load the data set into the R.
 student_loans <- read_delim("../data/Student Loan Debt by School 2020-2021.csv")
 
+#Defining the UI
 ui <- fluidPage(
   tags$img(src = "https://honors.uw.edu/wp-content/uploads/2018/08/UW_Top_View.jpg",
            style = 'position: absolute; opacity: 0.2;',
@@ -297,9 +300,6 @@ server <- function(input, output, session) {
 
   
 
-
-
-  #-------Nathaniel's code----------
 }
-
+#Start the Shiny App
 shinyApp(ui = ui, server = server)
