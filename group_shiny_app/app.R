@@ -124,8 +124,11 @@ ui <- fluidPage(
                        )
               ),
               tabPanel("Conclusion",
-                       mainPanel(HTML('<left><img src="https://www.commercebank.com/-/media/cb/articles/personal/2019/lg-header-lg-header-got-student-loans-understanding-repayment-options-desktop.png?revision=0dacb695-c1cc-4aa2-8f99-b5d4ad35dce1&modified=20200313180213", height = "320px"></left>'),
+                       mainPanel(
                                  fluidRow(
+                                   column(12, offset = 2,
+                                          HTML('<center><img src="https://www.commercebank.com/-/media/cb/articles/personal/2019/lg-header-lg-header-got-student-loans-understanding-repayment-options-desktop.png?revision=0dacb695-c1cc-4aa2-8f99-b5d4ad35dce1&modified=20200313180213", height = "320px"></center>')
+                                   ),
                                    column(12, offset = 2,
                                           HTML(
                                             paste0(
@@ -152,9 +155,9 @@ ui <- fluidPage(
                                    ),
                                    fluidRow(
                                      column(12, offset = 2,
-                                            HTML('<left><img src="https://i.postimg.cc/zvZDc87c/image1.png", height = "500px"></left>'),
+                                            HTML('<center><img src="https://i.postimg.cc/zvZDc87c/image1.png", height = "500px"></center>'),
                                             HTML('<center><b>East Coast States</b></center>'),
-                                            HTML('<right><img src="https://i.postimg.cc/Fs0Df46s/image2.png", height = "500px"></right>'),
+                                            HTML('<center><img src="https://i.postimg.cc/Fs0Df46s/image2.png", height = "500px"></center>'),
                                             HTML('<center><b>West Coast States</b></center>'),
                                      )
                                    )
