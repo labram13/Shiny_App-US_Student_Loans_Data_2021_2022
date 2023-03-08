@@ -5,8 +5,12 @@ library(dplyr)
 library(forcats)
 library(viridis)
 library(ggplot2)
+<<<<<<< HEAD
 install.packages("viridis")
 #Load the data set into the R.
+=======
+
+>>>>>>> 61b24caedcb80b0ea820c50c491c98c6b73f7185
 student_loans <- read_delim("../data/Student Loan Debt by School 2020-2021.csv")
 
 #Defining the UI
@@ -15,9 +19,9 @@ ui <- fluidPage(
            style = 'position: absolute; opacity: 0.2;',
            height="120%", width="120%", align="center"
   ),
-  titlePanel("Student Loans 2020-2021"),
+  titlePanel("Student Loans in U.S. 2020-2021"),
   tabsetPanel(type = "tabs",
-              tabPanel("Overview:",
+              tabPanel("Overview",
                        mainPanel(
                          HTML('<left><img src="https://justbuildwealth.com/wp-content/uploads/2019/02/pay-off-studen-loan-burden-fast.jpg", height = "320px"></left>'),
                          HTML(
@@ -35,9 +39,11 @@ ui <- fluidPage(
                                              Fear of incurring substantial amounts of debt can also deter students from enrolling in college, particularly those from low-income families who may not have the financial ability to attend college without significant borrowing.
                                              This can limit their economic mobility chances and promote social and economic inequity."), '<br/>',
                              
-                                             p("Ultimately, while student loans might enable access to higher education, they also have significant downsides that can long-term influence students' life.
+                                             ("Ultimately, while student loans might enable access to higher education, they also have significant downsides that can long-term influence students' life.
                                              To limit the burden of debt, students must carefully assess the financial consequences of taking out loans and investigate alternate sources of income, such as grants and scholarships.
-                                             This study examines data on student loan debt acquired by Andy Kriebel from various universities and colleges throughout the 2020-2021 academic year.
+                                             This study examines data on student loan debt acquired by "),
+                                             tags$a(href="https://www.kaggle.com/datasets/thedevastator/the-schools-that-create-the-most-student-debt?resource=download", "Andy Kriebel "),
+                                             ("from various universities and colleges throughout the 2020-2021 academic year.
                                              The information in the data collection comprises school names, states, zip codes, school kids, and loan types.
                                              The intended audience for this information varies, but it is precious for parents who may make informed judgments about which schools to send their children to based on the average loan taken out per student.
                                              The data collection can also assist students in planning their post-college lives and determining how much student debt they will have to repay.
@@ -49,7 +55,7 @@ ui <- fluidPage(
                          )
                        )
                 ),
-                tabPanel("Data: Megan",
+                tabPanel("Average Recipients by School Type",
                          sidebarLayout(
                            sidebarPanel(h3(strong("Average Recipients by School type:\n")),
                                         p(),
@@ -74,7 +80,7 @@ ui <- fluidPage(
                            )
                          )
               ),
-              tabPanel("Data: Mike",
+              tabPanel("Average Loans by State",
                        sidebarLayout(
                          sidebarPanel(h3(strong("Average Loans per State:\n")),
                                       p(),
@@ -109,7 +115,7 @@ ui <- fluidPage(
                          )
                        )
                       ),
-              tabPanel("Data: Nick",
+              tabPanel("Average Loans by City",
                        sidebarLayout(
                          sidebarPanel(h3(strong("Average Loans per City: \n")),
                                       p(),
@@ -126,15 +132,13 @@ ui <- fluidPage(
                        )
               ),
               tabPanel("Conclusion",
-                       sidebarLayout(
-                         sidebarPanel(
-                         ),
-                         mainPanel(HTML('<left><img src="https://www.commercebank.com/-/media/cb/articles/personal/2019/lg-header-lg-header-got-student-loans-understanding-repayment-options-desktop.png?revision=0dacb695-c1cc-4aa2-8f99-b5d4ad35dce1&modified=20200313180213", height = "320px"></left>'),
-                                   HTML(
-                                     paste0(
-                                       h3(strong("Overall Conclusions")),'<br/>',
-      
-                                       p(style="text-align:justify;", "For various reasons, obtaining a student loan for a foreign school might be more complicated than for a public school.
+                       mainPanel(HTML('<left><img src="https://www.commercebank.com/-/media/cb/articles/personal/2019/lg-header-lg-header-got-student-loans-understanding-repayment-options-desktop.png?revision=0dacb695-c1cc-4aa2-8f99-b5d4ad35dce1&modified=20200313180213", height = "320px"></left>'),
+                                 fluidRow(
+                                   column(12, offset = 2,
+                                 HTML(
+                                   paste0(
+                                     h3(strong("Overall Conclusions")),'<br/>',
+                                     p(style="text-align:justify;", "For various reasons, obtaining a student loan for a foreign school might be more complicated than for a public school.
                                          To begin, student loan qualifying rules differ across public and private colleges. 
                                          If you are a resident of the state where the school is situated, or if you attend a public university with a long-standing relationship with the lender, you may find it simpler to apply for a loan for a public school.
                                          Moreover, lenders may see loans to foreign schools as risky for reasons such as language hurdles, cultural differences, and a need for more understanding of the academic quality of the foreign institution. 
@@ -142,22 +146,32 @@ ui <- fluidPage(
                                          Finally, the cost of attending a foreign school, including expenditures such as flight and lodging, may be greater, resulting in more significant loan amounts and tighter approval conditions. 
                                          In general, acquiring a student loan for a foreign school might be more challenging, necessitating more study and planning. 
                                          This may explain the need for entries for loans for private and foreign institutions. "), '<br/>',
-                                       
-                                       p("Many variables contribute to the East Coast having a higher frequency of student loans than the West Coast. 
+                                     p("Many variables contribute to the East Coast having a higher frequency of student loans than the West Coast. 
                                         For starters, the cost of living on the East Coast is often higher, which includes more tuition and living expenditures. 
                                         Students may need additional loans to cover their education and living expenses. 
                                         Also, on the East Coast, some more prestigious universities and colleges may draw more students and have higher tuition prices.
                                         Because of the more significant population density on the East Coast, there are more students overall, which may lead to more student loans. 
                                         Third, because the employment market on the East Coast is often more competitive, more students may pursue higher education to improve their career chances. 
                                         While numerous variables likely contribute to the East Coast's more significant number of student loans, the higher cost of living and the more substantial number of top colleges are certainly vital causes.
-                                      ")
-                                       )
-                                       )
-                                       )
-                                       ),
-                         )
-                       )
+                                      The data set used in this project can be somewhat credible and reliable, as Andy Kriebel collected it from various universities and colleges throughout the 2020-2021 academic year. It does not show any indication of harming any population groups, and its purpose is to provide information to help individuals make informed decisions about higher education and student loans. Therefore, while the data may have limitations, it still offers valuable insights into the impact of student loans on people. 
+                                      The possible influence of the COVID-19 pandemic on student loan debt is one trend that may be extrapolated from this data set. The pandemic has caused tremendous economic disruption, with many people losing their employment or decreasing their income. This might lead to more students borrowing significant sums of money to pay for their education, exacerbating graduates' already substantial debt burden. On the other hand, the epidemic may result in more government initiatives to assist with student loan cancellation or relief, reducing the financial obligation many graduates suffer.")
+                                   )
+                                 )
+                                   ),
+                                 fluidRow(
+                                 column(12, offset = 2,
+                                        HTML('<left><img src="https://i.postimg.cc/zvZDc87c/image1.png", height = "500px"></left>'),
+                                        HTML('<center><b>East Coast States</b></center>'),
+                                        HTML('<right><img src="https://i.postimg.cc/Fs0Df46s/image2.png", height = "500px"></right>'),
+                                        HTML('<center><b>West Coast States</b></center>'),
+                                 )
+                                 )
+                       ) ,
               )
+  )
+)
+)
+
   
 
           
@@ -165,23 +179,33 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   #-------Megan's code---------
-  school_type <- student_loans %>% group_by(School) %>%
+  
+  # Finds the average amount of loan recipients per school
+  avg_recipients <- student_loans %>% 
+    group_by(School) %>%
     filter(!is.na(School), !is.na(Recipients)) %>%
     group_by(School, `School Type`) %>% 
     summarize(average_recipients = mean(Recipients)) %>%
     arrange(desc(average_recipients))
   
+  # Filters the average amount of loan recipients by 
+  # user's input of school type
   schooltype <- reactive ({
-    school_type %>%
+    avg_recipients %>%
       filter(`School Type` %in% input$school_type)
   })
   
+  # Renders a data table that shows the average amount of loan
+  # recipients of a school, with the data filtered out by the
+  # reactive variable, schooltype
   output$table <- renderDataTable ({
     schooltype() 
   })
   
+  # Message that shows how many schools there are that are displayed
+  # in the data table
   output$tableInfo <- renderPrint ({
-    num <- school_type %>%
+    num <- avg_recipients %>%
       filter(`School Type` %in% input$school_type) %>%
       nrow()
     cat("There are ", num, " ", input$school_type, " schools.")
@@ -297,9 +321,12 @@ server <- function(input, output, session) {
       ggtitle(paste("Average Student Loan Disbursements by City in", paste(input$state, collapse = ", "))) +
       scale_y_continuous(labels = scales::dollar_format(big.mark = ",", decimal.mark = ".", prefix = "$", suffix = "", accuracy = 1))
   })
+<<<<<<< HEAD
 
   
 
+=======
+>>>>>>> 61b24caedcb80b0ea820c50c491c98c6b73f7185
 }
 #Start the Shiny App
 shinyApp(ui = ui, server = server)
