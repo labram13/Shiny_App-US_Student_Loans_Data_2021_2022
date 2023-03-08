@@ -4,7 +4,7 @@ library(dplyr)
 library(forcats)
 library(viridis)
 library(ggplot2)
-student_loans <- read_delim("../data/Student Loan Debt by School 2020-2021.csv")
+student_loans <- read_delim("data/Student Loan Debt by School 2020-2021.csv")
 
 ui <- fluidPage(
   tags$img(src = "https://honors.uw.edu/wp-content/uploads/2018/08/UW_Top_View.jpg",
@@ -129,7 +129,7 @@ ui <- fluidPage(
                                    column(12, offset = 2,
                                           HTML(
                                             paste0(
-                                              h3(strong("Overall Conclusions")),'<br/>',
+                                              HTML('<center><h3><b>Overall Conclusions</b></h3></center>'),'<br/>',
                                               p(style="text-align:justify;", "For various reasons, obtaining a student loan for a foreign school might be more complicated than for a public school.
                                          To begin, student loan qualifying rules differ across public and private colleges. 
                                          If you are a resident of the state where the school is situated, or if you attend a public university with a long-standing relationship with the lender, you may find it simpler to apply for a loan for a public school.
