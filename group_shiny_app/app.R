@@ -146,7 +146,8 @@ ui <- fluidPage(
                                         Because of the more significant population density on the East Coast, there are more students overall, which may lead to more student loans. 
                                         Third, because the employment market on the East Coast is often more competitive, more students may pursue higher education to improve their career chances. 
                                         While numerous variables likely contribute to the East Coast's more significant number of student loans, the higher cost of living and the more substantial number of top colleges are certainly vital causes.
-                                      ")
+                                      The data set used in this project can be somewhat credible and reliable, as Andy Kriebel collected it from various universities and colleges throughout the 2020-2021 academic year. It does not show any indication of harming any population groups, and its purpose is to provide information to help individuals make informed decisions about higher education and student loans. Therefore, while the data may have limitations, it still offers valuable insights into the impact of student loans on people. 
+                                      The possible influence of the COVID-19 pandemic on student loan debt is one trend that may be extrapolated from this data set. The pandemic has caused tremendous economic disruption, with many people losing their employment or decreasing their income. This might lead to more students borrowing significant sums of money to pay for their education, exacerbating graduates' already substantial debt burden. On the other hand, the epidemic may result in more government initiatives to assist with student loan cancellation or relief, reducing the financial obligation many graduates suffer.")
                                    )
                                  )
                        ) ,
