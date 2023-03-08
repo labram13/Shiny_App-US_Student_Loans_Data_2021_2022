@@ -12,6 +12,8 @@ ui <- fluidPage(
            height="120%", width="120%", align="center"
   ),
   titlePanel("Student Loans in U.S. 2020-2021"),
+  
+  # First Tabset panel for overview description of our project. 
   tabsetPanel(type = "tabs",
               tabPanel("Overview",
                        mainPanel(
@@ -47,6 +49,10 @@ ui <- fluidPage(
                          )
                        )
               ),
+              
+              # Megan's server code outputs and inputs here for tabpanel
+              # on Average REcipients by School Type.
+              # Renders table in main panel and checkbox inputs in sidepanel.
               tabPanel("Average Recipients by School Type",
                        sidebarLayout(
                          sidebarPanel(h3(strong("Average Recipients by School type:\n")),
@@ -72,6 +78,11 @@ ui <- fluidPage(
                          )
                        )
               ),
+              
+              # Mike's server code outputs and inputs on Average Loans by State.
+              # Side panel has 2 widgets, color selection as checkbox and 
+              # drop down selection for States. Plot is rendered
+              # in main panel.
               tabPanel("Average Loans by State",
                        sidebarLayout(
                          sidebarPanel(h3(strong("Average Loans per State:\n")),
@@ -107,6 +118,10 @@ ui <- fluidPage(
                          )
                        )
               ),
+              
+              # Nick's output and input server code here. Side panel organizes 
+              # cities by States when State is selected. Plot
+              # is rendered in main panel.
               tabPanel("Average Loans by City",
                        sidebarLayout(
                          sidebarPanel(h3(strong("Average Loans per City: \n")),
@@ -123,6 +138,10 @@ ui <- fluidPage(
                          )
                        )
               ),
+              
+              # Nathaniel's html and fluid row code here. Centers images and 
+              # text conlusion. Images are properly labeled with captions. 
+              # No server output/input code needed. 
               tabPanel("Conclusion",
                        mainPanel(
                                  fluidRow(
